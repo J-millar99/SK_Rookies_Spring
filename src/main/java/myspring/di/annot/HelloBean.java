@@ -18,6 +18,8 @@ public class HelloBean {
 	@Qualifier("stringPrinter")
 	PrinterBean printer;
 	@Resource(name = "${myprinter}")
+	
+	@Value("${names.list.of.strings}")
 	List<String> names;
 
 	public HelloBean() {
