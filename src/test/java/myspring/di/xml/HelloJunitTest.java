@@ -19,5 +19,7 @@ public class HelloJunitTest {
 		Hello helloByType = context.getBean("hello", Hello.class);
 		System.out.println(helloById == helloByType);
 		assertSame(helloById, helloByType);
+		
+		
 	}
 }
