@@ -14,12 +14,13 @@ public class HelloBean {
 	@Value("${myName}")
 	String name;
 	
-	@Autowired
-	@Qualifier("stringPrinter")
+//	@Autowired
+//	@Qualifier("stringPrinter")
+	@Resource(name = "${myPrinter}")
 	PrinterBean printer;
-	@Resource(name = "${myprinter}")
 	
-	@Value("${names.list.of.strings}")
+//	@Value("${names.list.of.strings}")
+	@Value("#{'${names.list.of.strings}'.split(',')}")
 	List<String> names;
 
 	public HelloBean() {
