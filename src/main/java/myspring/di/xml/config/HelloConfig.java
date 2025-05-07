@@ -35,6 +35,7 @@ public class HelloConfig {
 		Hello hello = new Hello(); // alt + shift + l
 		hello.setName(env.getProperty("myName1")); // myName1=스프링
 		hello.setPrinter(stringPrinter());
+		hello.setNames(namesList());
 		return hello;
 	}
 	
