@@ -1,3 +1,4 @@
+package mylab.user.di.annot;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -9,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import mylab.user.di.annot.UserService;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(locations = "classpath:mylab-user-di.xml")

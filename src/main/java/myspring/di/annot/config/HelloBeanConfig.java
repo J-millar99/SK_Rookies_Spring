@@ -9,5 +9,5 @@ import org.springframework.context.annotation.PropertySource;
 @ComponentScan(basePackages = {"myspring.di.annot"})
 @PropertySource(value = "classpath:values.properties")
 public class HelloBeanConfig {
-
+	
 }
