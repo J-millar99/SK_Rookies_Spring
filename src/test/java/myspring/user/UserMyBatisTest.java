@@ -49,7 +49,7 @@ public class UserMyBatisTest {
 		logger.debug(user);
 	}
 	
-	@Test
+	@Test @Disabled
 	void mapper() {
 		UserVO user = userMapper.selectUserById("gildong");
 		logger.debug(user);

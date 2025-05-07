@@ -10,7 +10,7 @@ import myspring.user.vo.UserVO;
 
 @Repository("userDao")
 public class UserDaoImplMapper implements UserDao {
-	//@Autowired
+	@Autowired
 	private UserMapper userMapper;	
 	
 	@Override
