@@ -3,6 +3,8 @@ package myspring.user;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.SQLException;
+import java.util.List;
+import java.util.function.Consumer;
 
 import javax.sql.DataSource;
 
@@ -37,7 +39,22 @@ public class UserMyBatisTest {
 		UserVO user = sqlSession.selectOne("userNS.selectUserById", "dooly");
 		logger.debug(user);
 		
-		sq;Session.selectList("userNS.selectUserList").forEach(action); // List<UserVO>
+		// Anonymous Inner Class (익명 내부 클래스)
+		List<UserVO> userList = sqlSession.selectList("userNS.selectUserList");
+		for (UserVO userVO : userList) {
+			logger.debug(userVO);
+		}
+		
+		// forEach(Consumer)에서 Consumer를 Anonymous Inner Class 형태로 선언하는 방식
+		userList.forEach(new Consumer<UserVO>() {
+			@Override
+			public void accept(UserVO user) {
+				logger.debug(user);
+				
+			}
+		});
+		// forEach(Consumer)에서 Consumer를 Lambda Expression (람다식)으로 선언하는 방식
+		userList.forEach(user1 -> logger.debug(user1));
 	}
 	
 	@Test
