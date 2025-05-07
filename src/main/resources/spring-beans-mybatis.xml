@@ -8,5 +8,10 @@
 
 	<context:property-placeholder location="classpath:values.properties"/>
 	<!-- DataSource 구현체인 HikariDateSource 클래스를 Bean으로 설정하기 -->
-	<bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" p:driverClassName="${db.driverClass}"/>
+	<bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" 
+		p:driverClassName="${db.driverClass}"
+		p:jdbcUrl="${db.url}"
+		p:username="${db.username}"
+		p:password="${db.password}"
+	/>
 </beans>
