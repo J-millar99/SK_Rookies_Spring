@@ -6,6 +6,7 @@ import java.sql.SQLException;
 
 import javax.sql.DataSource;
 
+import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.Test;
@@ -20,6 +21,14 @@ public class UserMyBatisTest {
 	protected static final Logger logger = LogManager.getLogger();
 	@Autowired
 	DataSource dataSource;
+	
+	@Autowired
+	SqlSessionFactory sessionFactory;
+	
+	@Test
+	void sqlSession() {
+		System.out.println(sessionFactory.getClass().getName());
+	}
 	
 	@Test
 	void connection() {
