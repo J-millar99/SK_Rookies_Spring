@@ -28,7 +28,7 @@ public class UserMyBatisTest {
 			DatabaseMetaData metaData = connection.getMetaData();
 			logger.debug("DB URL = " + metaData.getURL());
 			logger.debug("DB Username = " + metaData.getUserName());
-			logger.debug("DB Vendor Name = " + metaData.getDatabaseProductName());
+			logger.info("DB Vendor Name = " + metaData.getDatabaseProductName());
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
