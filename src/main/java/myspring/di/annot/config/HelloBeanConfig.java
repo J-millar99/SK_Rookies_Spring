@@ -9,5 +9,7 @@ import org.springframework.context.annotation.PropertySource;
 @ComponentScan(basePackages = {"myspring.di.annot"})
 @PropertySource(value = "classpath:values.properties")
 public class HelloBeanConfig {
-	
+	public HelloBeanConfig() {
+		System.out.println(this.getClass().getName() + " Config클래스 기본생성자 호출됨!");
+	}
 }
