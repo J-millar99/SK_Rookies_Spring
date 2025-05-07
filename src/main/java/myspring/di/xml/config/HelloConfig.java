@@ -15,7 +15,7 @@ import myspring.di.xml.Printer;
 import myspring.di.xml.StringPrinter;
 
 @Configuration
-@PropertySource(value = "classpath:value.properties")
+@PropertySource(value = "classpath:values.properties")
 public class HelloConfig {
 	@Autowired
 	private Environment env;
