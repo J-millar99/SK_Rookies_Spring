@@ -6,6 +6,7 @@ import java.sql.SQLException;
 
 import javax.sql.DataSource;
 
+import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -14,6 +15,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import myspring.user.vo.UserVO;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(locations = "classpath:spring-beans-mybatis.xml")
@@ -25,9 +28,14 @@ public class UserMyBatisTest {
 	@Autowired
 	SqlSessionFactory sessionFactory;
 	
+	@Autowired
+	SqlSession sqlSession;
+	
 	@Test
 	void sqlSession() {
 		System.out.println(sessionFactory.getClass().getName());
+		UserVO user = sqlSession.selectOne("userNS.selectUserById", "dooly");
+		logger.debug(user);
 	}
 	
 	@Test
