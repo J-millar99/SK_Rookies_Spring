@@ -23,7 +23,7 @@ public class UserServiceTest {
         assertNotNull(userService);
         
         // UserRepository 확인
-        //userService.getUserRepository() => UserRepository
+        // userService.getUserRepository() => UserRepository
         assertNotNull(userService.getUserRepository());
         //userService.getUserRepository().getDbType() ==> String 타입은 값은 MySQL
         assertEquals("MySQL", userService.getUserRepository().getDbType());
