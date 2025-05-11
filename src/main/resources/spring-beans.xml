@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <!-- Transaction Manager 설정 -->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+
+    <!-- Transaction Advice 설정 -->
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="get*" read-only="true"/>
+
+            <!-- 예외=Existing transaction found for transaction marked with propagation 'never' -->
+            <!-- 			<tx:method name="deleteUser" propagation="REQUIRED"/> -->
+            <!-- 			<tx:method name="delete" propagation="NEVER"/> -->
+
+            <!--No existing transaction found for transaction marked with propagation 'mandatory'-->
+            <tx:method name="updateUser" propagation="NOT_SUPPORTED"/> <!-- service -->
+            <!-- 			<tx:method name="update" propagation="REQUIRED" /> -->
+            <tx:method name="update" propagation="MANDATORY" />
+        </tx:attributes>
+    </tx:advice>
+
+    <!-- Transaction AOP 설정 -->
+    <aop:config>
+        <aop:pointcut expression="execution(public * myspring.user..*(..))" id="txPointCut"/>
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="txPointCut"/>
+    </aop:config>
+
+    <!-- Advice 클래스를 Bean으로 등록 -->
+    <bean id="performanceTraceAdvice" class="myspring.aop.xml.PerformanceTraceAdvice" />
+
+    <aop:config>
+        <aop:aspect id="traceAspect" ref="performanceTraceAdvice">
+            <!-- 			<aop:around pointcut="execution(public * myspring.user..*(..))||execution(public * myspring.student..*(..))" -->
+            <!-- 				method="trace" /> -->
+            <aop:around pointcut="execution(public * myspring.user..*(..))"
+                        method="trace" />
+        </aop:aspect>
+    </aop:config>
+
+    <!-- @Aspect가 선언된 모든 Bean을 Aspect로 자동 등록해줌 -->
+    <aop:aspectj-autoproxy />
+
+
+    <!-- Component Scanning -->
+    <context:component-scan base-package="myspring.**.dao,myspring.**.service" />
+    <context:component-scan base-package="myspring.aop.annot" />
+
+    <!-- values.properties 파일 정보 설정 -->
+    <context:property-placeholder location="classpath:values.properties2" />
+
+    <!-- HikariDataSource 클래스를 Spring Bean으로 설정 -->
+    <bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource"
+          p:driverClassName="${db.driverClass}"
+          p:jdbcUrl="${db.url}"
+          p:username="${db.username}"
+          p:password="${db.password}"
+    />
+
+    <!-- SqlSessionFactoryBean 클래스를 Spring Bean으로 설정하기 -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <!-- setDataSource(DataSource dataSource) -->
+        <property name="dataSource" ref="dataSource" />
+        <!-- setConfigLocation(org.springframework.core.io.Resource configLocation) -->
+        <property name="configLocation" value="classpath:mybatis/SqlMapConfig.xml" />
+        <!-- void setMapperLocations(org.springframework.core.io.Resource... mapperLocations) -->
+        <property name="mapperLocations">
+            <list>
+                <value>classpath:mybatis/*Mapper.xml</value>
+            </list>
+        </property>
+    </bean>
+
+    <!-- SqlSessionTemplate 클래스를 Spring Bean으로 설정하기 -->
+    <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+        <constructor-arg ref="sqlSessionFactory" />
+    </bean>
+
+    <!-- Mapper 인터페이스 스캐닝을 위한 설정 -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="myspring.**.mapper,mylab.**.mapper" />
+        <!-- optional unless there are multiple session factories defined -->
+        <property name="sqlSessionTemplateBeanName" value="sqlSession" />
+    </bean>
+
+
+</beans>
